@@ -47,14 +47,14 @@ function solving(message){
                 var admv = await page.goto(String(message.url).replace("%RAN%",""))
                 console.log(`[Browser] Session Connected | Target: ${message.url} | Proxy: ${message.proxy}`)
             } catch (error) {
-                //db.set(message.id, { status: "error_connect", url: message.url,error:error.message})
-                // console.log(error)
+
+
                 reject(error)
                 await browser.close()
             }
             try {
                 const cloudFlareWrapper = await page.$('#cf-wrapper'); 
-               // console.log(cloudFlareWrapper)
+
                 if (cloudFlareWrapper) {
                     console.log(`[Browser] Session Found Hcaptcha/JS-Challenge | Target: ${message.url} | Proxy: ${message.proxy}`)
                     await page.waitForTimeout(15000, { waitUntil:'networkidle0' })
@@ -103,23 +103,16 @@ function solving(message){
                     resolve(cookies);
                     await browser.close();
                     return;
-                    //return cookies
+
                 }
             } catch (ee) { 
                 reject(ee)
                 await browser.close();
             }
-            // let db = new JSONdb('database.json');
-            // db.set(message.id, { status: "done", url: message.url, cookies: cookies, useragent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 OPR/84.0.4316.21" })
+
+
         })
     })
 }
 
 module.exports = { solving:solving }
-
-// solving({
-//     "url":process.argv[2],
-//     "proxy":"45.129.125.43:3128"
-// }).then((cookie) => {
-//     console.log(cookie)
-// })
